@@ -73,4 +73,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# For test
+0test.cpp
+
 # End of https://www.gitignore.io/api/c++,windows,visualstudiocode

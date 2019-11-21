@@ -12,9 +12,7 @@
 #include <vector>
 
 /*
-    
-    미완
-    
+아직 미해결ㅜㅜ
 */
 
 using namespace std;
@@ -23,8 +21,14 @@ const int MAX = 100001;
 int sticker[2][MAX];
 vector<int> sum;
 
-int dp(int n, int case)
+int dp(int case, int n)
 {
+    int % ret = sticker[case][n];
+
+    if (case == 0)
+    {
+        ret = max(ret, );
+    }
 }
 
 int main()
