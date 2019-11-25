@@ -12,29 +12,31 @@
 #include <vector>
 
 /*
-아직 미해결ㅜㅜ
+    case  | row | N-1 |  N
+----------|-----|-----|-----
+      0   |  0  |  0  |  ?
+          |  1  |  0  |  ?
+----------|-----|-----|-----
+      1   |  0  |  1  |  0
+          |  1  |  0  |  ?
+----------|     |-----|-----
+      2   |  0  |  0  |  ?
+          |  1  |  1  |  0
+----------|-----|-----|-----
+          
 */
 
 using namespace std;
 
 const int MAX = 100001;
 int sticker[2][MAX];
-vector<int> sum;
-
-int dp(int case, int n)
-{
-    int % ret = sticker[case][n];
-
-    if (case == 0)
-    {
-        ret = max(ret, );
-    }
-}
+int dp[MAX][3] = {
+    0,
+};
 
 int main()
 {
-    int T, n;
-    int value;
+    int T, n, ret;
 
     memset(sticker, -1, sizeof(sticker));
     scanf("%d", &T);
@@ -43,32 +45,24 @@ int main()
     {
         scanf("%d", &n);
 
-        for (int i = 0; i < n; i++)
+        for (int row = 0; row < 2; row++)
         {
-            if (i == n - 1)
+            for (int col = 1; col < n + 1; col++)
             {
-                scanf("%d", &value);
+                scanf("%d", &sticker[row][col]);
             }
-            else
-            {
-                scanf("%d ", &value);
-            }
-            sticker[0][i] = value;
-        }
-        for (int i = 0; i < n; i++)
-        {
-            if (i == n - 1)
-            {
-                scanf("%d", &value);
-            }
-            else
-            {
-                scanf("%d ", &value);
-            }
-            sticker[1][i] = value;
         }
 
-        printf("%d\n", dp(n));
+        for (int i = 1; i < n + 1; i++)
+        {
+            dp[i][0] = max(max(dp[i - 1][0], dp[i - 1][1]), dp[i - 1][2]);
+            dp[i][1] = sticker[0][i] + max(dp[i - 1][0], dp[i - 1][2]);
+            dp[i][2] = sticker[1][i] + max(dp[i - 1][0], dp[i - 1][1]);
+        }
+
+        ret = max(max(dp[n][0], dp[n][1]), dp[n][2]);
+
+        printf("%d\n", ret);
         memset(sticker, -1, sizeof(sticker));
     }
 }
