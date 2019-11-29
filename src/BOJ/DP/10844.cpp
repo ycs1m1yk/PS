@@ -13,10 +13,6 @@
 
 using namespace std;
 
-/*
-오답
-*/
-
 int stairNum[101][10] = {
     0,
 };

@@ -11,57 +11,61 @@
 #include <utility>
 #include <vector>
 
-/*
-    뭐가 틀린거지??
-*/
-
 using namespace std;
 const int MAX = 1001;
 
-int N, maxElement;
-int numArr[MAX];
-int dp[MAX];
+int N, max1;
+int sequence[MAX];
+int cache[MAX];
 
-int solve(int start, int N)
+int dp(int size)
 {
-    int &ret = dp[start];
-    if (N == start)
-    {
-        maxElement = numArr[start];
-        return ret = 1;
-    }
-    if (ret != -1)
-    {
-        return ret;
-    }
+	int &ret = cache[size];
+	if (size == 1)
+	{
+		return ret = 1;
+	}
+	if (cache[size] != -1)
+	{
+		return ret;
+	}
 
-    ret = solve(start, N - 1);
+	dp(size - 1);
 
-    if (numArr[N] > maxElement)
-    {
-        ret += 1;
-        maxElement = numArr[N];
-    }
+	for (int i = 1; i < size; i++)
+	{
+		if (sequence[size] > sequence[i])
+		{
+			if (cache[i] > max1)
+			{
+				max1 = cache[i];
+			}
+		}
+	}
+	ret = max1 + 1;
+	max1 = 0;
 
-    return ret;
+	return ret;
 }
 
 int main()
 {
-    memset(dp, -1, sizeof(dp));
-    scanf("%d", &N);
+	memset(cache, -1, sizeof(cache));
+	scanf("%d", &N);
 
-    for (int i = 1; i < N + 1; i++)
-    {
-        scanf("%d", &numArr[i]);
-    }
+	for (int i = 1; i < N + 1; i++)
+	{
+		scanf("%d", &sequence[i]);
+	}
 
-    for (int start = 1; start < N + 1; start++)
-    {
-        solve(start, N);
-    }
-    sort(dp + 1, dp + N + 1);
-    printf("%d", dp[N]);
+	dp(N);
 
-    return 0;
+	int ret = 0;
+	for (int i = 1; i < N + 1; i++)
+	{
+		ret = max(ret, cache[i]);
+	}
+
+	printf("%d", ret);
+	return 0;
 }
