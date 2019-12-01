@@ -25,7 +25,7 @@ int dp(int size)
 	{
 		return ret = 1;
 	}
-	if (cache[size] != -1)
+	if (ret != -1)
 	{
 		return ret;
 	}
