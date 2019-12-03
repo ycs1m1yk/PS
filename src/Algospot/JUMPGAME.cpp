@@ -18,34 +18,42 @@ const int MAX = 101;
 int C, N;
 int matrix[MAX][MAX], cache[MAX][MAX];
 
-bool judgeIsReachable(int x, int y)
+int judgeIsReachable(int y, int x)
 {
-    int &posVal = matrix[x][y];
-    if ((x == N) && (y == N))
+    if ((x >= N) || (y >= N))
     {
-        return true;
+        return 0;
     }
-    if ((x > N) || (y > N))
+    int &ret = cache[y][x];
+    if ((x == N - 1) && (y == N - 1))
     {
-        return false;
+        return 1;
     }
-    return judgeIsReachable(x + posVal, y) || judgeIsReachable(x, y + posVal);
+    if (ret != -1)
+    {
+        return ret;
+    }
+    int posVal = matrix[y][x];
+    return ret = (judgeIsReachable(y + posVal, x) || judgeIsReachable(y, x + posVal));
 }
 
 int main()
 {
+    memset(cache, -1, sizeof(cache));
     scanf("%d", &C);
 
     while (C--)
     {
         scanf("%d", &N);
-        for (int i = 1; i < N + 1; i++)
+        for (int y = 0; y < N; y++)
         {
-            for (int j = 1; j < N + 1; j++)
+            for (int x = 0; x < N; x++)
             {
-                scanf("%d", &matrix[i][j]);
+                scanf("%d", &matrix[y][x]);
             }
         }
-        judgeIsReachable(1, 1) ? printf("YES\n") : printf("NO\n");
+        judgeIsReachable(0, 0) ? printf("YES\n") : printf("NO\n");
+        fill_n(&matrix[0][0], (MAX - 1) * MAX, 0);
+        memset(cache, -1, sizeof(cache));
     }
 }
