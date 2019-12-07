@@ -12,8 +12,12 @@
 #include <utility>
 #include <vector>
 
+/*
+    DP활용법은 잘 모르겠다, 반례가 뭐 있지..?
+*/
 using namespace std;
 const int MAX = 100000;
+
 int min1 = MAX, cache[MAX];
 
 int solve(int N)
