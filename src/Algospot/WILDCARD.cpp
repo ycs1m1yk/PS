@@ -12,15 +12,42 @@
 #include <utility>
 #include <vector>
 
+/*
+    나중에 풀이
+    나중에 풀이
+    나중에 풀이
+    나중에 풀이
+    나중에 풀이
+*/
+
 using namespace std;
 const int MAX = 101;
 
 int C, N;
-char wildCard[MAX], fileName[MAX];
+char wildCard[MAX], fileName[50][MAX];
 int cache[MAX];
 
-void isMatch(char c[])
+int isMatch(int pos, int i)
 {
+    int &ret = cache[pos];
+    if (ret != -1)
+    {
+        return ret;
+    }
+    if (wildCard[pos] != '*')
+    {
+        if ((wildCard[pos] == '?') || (wildCard[pos] == fileName[i][pos]))
+        {
+            ret = 1;
+            isMatch(pos + 1, i);
+        }
+        else
+            return ret = 0;
+    }
+    else
+    {
+        while ()
+    }
 }
 
 int main()
@@ -30,7 +57,12 @@ int main()
 
     while (C--)
     {
-        scanf("%s", &wildCard);
+        getline(cin, wildCard);
         scanf("%d", &N);
+        for (int i = 0; i < N; i++)
+        {
+            getline(cin, fileName[i]);
+        }
+        printf("\n");
     }
 }
