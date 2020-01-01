@@ -13,6 +13,7 @@
 #include <vector>
 
 /*
+<<<<<<< HEAD
     시간초과...
 */
 
@@ -21,6 +22,14 @@ const int MAX = 100000;
 const int ROOT_MAX = 317; // sqrt(100000) == 316.xx...
 
 int min1 = MAX, cache[MAX], cnt[ROOT_MAX];
+=======
+    DP활용법은 잘 모르겠다, 반례가 뭐 있지..?
+*/
+using namespace std;
+const int MAX = 100000;
+
+int min1 = MAX, cache[MAX];
+>>>>>>> a6d68a3fef2262c2feb6767b03238791e974ada0
 
 int solve(int N)
 {
