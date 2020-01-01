@@ -12,9 +12,15 @@
 #include <utility>
 #include <vector>
 
+/*
+    시간초과...
+*/
+
 using namespace std;
 const int MAX = 100000;
-int min1 = MAX, cache[MAX];
+const int ROOT_MAX = 317; // sqrt(100000) == 316.xx...
+
+int min1 = MAX, cache[MAX], cnt[ROOT_MAX];
 
 int solve(int N)
 {
@@ -29,21 +35,30 @@ int solve(int N)
         return ret;
     }
 
+    for (int i = 1; i < rootN + 1; i++)
+    {
+        cnt[i] = N / (i * i);
+    }
+
     for (int i = rootN; i > 0; i--)
     {
         int tmp = N;
-        int cnt = 0;
-        for (int j = i; j > 0; j--)
+        for (int j = cnt[i]; j >= 0; j--)
         {
-            while (tmp - j * j >= 0)
+            tmp -= j * i * i;
+            int s = solve(tmp);
+            if (ret == -1)
             {
-                tmp -= j * j;
-                cnt++;
+                ret = j + s;
             }
+            else
+            {
+                ret = min(ret, j + s);
+            }
+            tmp = N;
         }
-        min1 = min(min1, cnt);
     }
-    return ret = min1;
+    return ret;
 }
 
 int main()
