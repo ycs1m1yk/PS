@@ -25,10 +25,19 @@ using namespace std;
 const int MAX = 201;
 const int DIVISOR = 1000000000;
 
-long long cache[MAX];
+long long cache[MAX][MAX];
 
 long long d(int N, int K)
 {
+    long long &ret = cache[N][K];
+    if (K == 1)
+        return ret = 1;
+    if (N == 1)
+        return ret = K;
+    if (ret != -1)
+        return ret;
+
+    return ret = d(N - 1, K) % DIVISOR + d(N, K - 1) % DIVISOR;
 }
 
 int main()
@@ -36,4 +45,5 @@ int main()
     int N, K;
     memset(cache, -1, sizeof(cache));
     scanf("%d %d", &N, &K);
+    cout << d(N, K) % DIVISOR;
 }
