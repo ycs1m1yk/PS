@@ -13,25 +13,23 @@
 #include <vector>
 #include <tuple>
 
-// 다음문제: 10808
-
 using namespace std;
-const int MAX_DEQUEUE_SIZE = 100000;
+const int MAX_DEQUE_SIZE = 10001;
 
 typedef struct node
 {
-    NODE *next;
     int data;
+    struct node *prev, *next;
 } NODE;
 
-class Dequeue
+class Deque
 {
 private:
     NODE *front, *back;
-    int length = 0;
+    int size;
 
 public:
-    Dequeue();
+    Deque();
 
     int getFront();
     int getBack();
@@ -44,117 +42,165 @@ public:
     bool isEmpty();
 };
 
-Dequeue::Dequeue()
+Deque::Deque()
 {
     front = back = NULL;
+    size = 0;
 }
 
-int Dequeue::getFront()
+int Deque::getFront()
 {
     if (isEmpty())
         return -1;
     else
         return front->data;
 }
-int Dequeue::getBack()
+int Deque::getBack()
 {
     if (isEmpty())
         return -1;
     else
         return back->data;
 }
-int Dequeue::getSize()
+int Deque::getSize()
 {
     return size;
 }
 
-void Dequeue::pushFront(int data)
+void Deque::pushFront(int data)
 {
-    NODE newNode = new NODE;
+    NODE *newNode = new struct node;
     newNode->data = data;
+    newNode->prev = NULL;
     newNode->next = NULL;
+
+    if (front == NULL)
+    {
+        front = newNode;
+        back = newNode;
+    }
+    else
+    {
+        newNode->next = front;
+        front->prev = newNode;
+        front = newNode;
+    }
+    size++;
+}
+void Deque::pushBack(int data)
+{
+    NODE *newNode = new NODE;
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+
+    if (back == NULL)
+    {
+        front = newNode;
+        back = newNode;
+    }
+    else
+    {
+        newNode->prev = back;
+        back->next = newNode;
+        back = newNode;
+    }
+    size++;
+}
+int Deque::popFront()
+{
+    if (isEmpty())
+        return -1;
+    else
+    {
+        int ret = front->data;
+        node *tmp = front;
+        front = front->next;
+        if (front == NULL)
+            back = NULL;
+        else
+            front->prev = NULL;
+        free(tmp);
+        size--;
+        return ret;
+    }
+}
+int Deque::popBack()
+{
+    if (isEmpty())
+        return -1;
+    else
+    {
+        int ret = back->data;
+        node *tmp = back;
+        back = back->prev;
+        if (back == NULL)
+            front = NULL;
+        else
+            back->next = NULL;
+        free(tmp);
+        size--;
+        return ret;
+    }
+}
+bool Deque::isEmpty()
+{
+    return front == NULL;
 }
 
 int main()
 {
     int N;
+    Deque dq;
     scanf("%d", &N);
     for (int i = 0; i < N; i++)
     {
         char op[11];
         scanf("%s", op);
-        /*
         if (!strcmp(op, "push_front")) // 수정할것
         {
             int data;
             scanf("%d", &data);
             // queue_full은 생략
-            back++;
-            dequeue[back] = data;
+            dq.pushFront(data);
             continue;
         }
         if (!strcmp(op, "push_back")) // 수정할것
         {
             int data;
             scanf("%d", &data);
-            // dequeue_full은 생략
-            back++;
-            dequeue[back] = data;
+            // queue_full은 생략
+            dq.pushBack(data);
             continue;
         }
         if (!strcmp(op, "pop_front")) // 수정할것
         {
-            if (front == back)
-                printf("-1\n");
-            else
-            {
-                printf("%d\n", dequeue[front + 1]);
-                front++;
-            }
-
+            printf("%d\n", dq.popFront());
             continue;
         }
         if (!strcmp(op, "pop_back")) // 수정할것
         {
-            if (front == back)
-                printf("-1\n");
-            else
-            {
-                printf("%d\n", dequeue[front + 1]);
-                front++;
-            }
-
+            printf("%d\n", dq.popBack());
             continue;
         }
         if (!strcmp(op, "size"))
         {
-            printf("%d\n", back - front);
+            printf("%d\n", dq.getSize());
             continue;
         }
         if (!strcmp(op, "empty"))
         {
-            if (front == back)
-                printf("1\n");
-            else
-                printf("0\n");
+            printf("%d\n", dq.isEmpty() ? 1 : 0);
             continue;
         }
         if (!strcmp(op, "front"))
         {
-            if (back == front)
-                printf("-1\n");
-            else
-                printf("%d\n", dequeue[front + 1]);
+            printf("%d\n", dq.getFront());
             continue;
         }
         if (!strcmp(op, "back"))
         {
-            if (back == front)
-                printf("-1\n");
-            else
-                printf("%d\n", dequeue[back]);
-            continue;
+            printf("%d\n", dq.getBack());
         }
-        */
     }
 }
