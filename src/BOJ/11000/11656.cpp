@@ -16,6 +16,16 @@
 using namespace std;
 int main()
 {
-    printf("(\n");
-    printf(")");
+    string S;
+    vector<string> dict;
+    getline(cin, S);
+    for (int i = 0; i < S.size(); i++)
+    {
+        dict.push_back(S.substr(i, S.size() - i));
+    }
+    sort(dict.begin(), dict.end());
+    for (auto s : dict)
+    {
+        cout << s << "\n";
+    }
 }
