@@ -6,64 +6,62 @@
 #include <stdlib.h>
 #include <string>
 #include <algorithm>
-#include <deque>
-#include <queue>
-#include <stack>
+#include <list>
 #include <utility>
-#include <vector>
-#include <tuple>
 
 using namespace std;
-/*
 
-
-
-    시간초과...
-
-
-
-*/
 int main()
 {
-    string command = "LDBP";
+    int M;
     string input;
-    int M, cursorPos, cursorLastPos;
+    list<char> sentence;
 
-    getline(cin, input);
-    cursorLastPos = input.size() - 1;
-    cursorPos = cursorLastPos;
+    cin >> input;
+    for (int i = 0; i < input.size(); i++)
+    {
+        sentence.push_back(input[i]);
+    }
+    list<char>::iterator cursorPos = sentence.end();
+
     cin >> M;
     while (M--)
     {
         char cmd;
         cin >> cmd;
-        if (cmd == command[0])
+        if (cmd == 'L')
         {
-            if (cursorPos > -1)
-                cursorPos--;
-        }
-        else if (cmd == command[1])
-        {
-            if (cursorPos != cursorLastPos)
-                cursorPos++;
-        }
-        else if (cmd == command[2])
-        {
-            if (cursorPos > -1)
+            if (cursorPos != sentence.begin())
             {
-                input.erase(cursorPos, 1);
                 cursorPos--;
-                cursorLastPos--;
             }
         }
-        else if (cmd == command[3])
+        else if (cmd == 'D')
         {
-            string tmp;
+            if (cursorPos != sentence.end())
+            { // 커서가 문장의 맨 뒤
+                cursorPos++;
+            }
+        }
+        else if (cmd == 'B')
+        {
+            if (cursorPos != sentence.begin())
+            {
+                cursorPos--;
+                //  erase returns Iterator following the last removed element.
+                cursorPos = sentence.erase(cursorPos);
+            }
+        }
+        else if (cmd == 'P')
+        {
+            char tmp;
             cin >> tmp;
-            cursorPos++;
-            cursorLastPos++;
-            input.insert(cursorPos, tmp);
+            //  insert returns Iterator pointing to the inserted value
+            sentence.insert(cursorPos, tmp);
         }
     }
-    cout << input;
+    for (auto iter = sentence.begin(); iter != sentence.end(); iter++)
+    {
+        cout << *iter;
+    }
 }
