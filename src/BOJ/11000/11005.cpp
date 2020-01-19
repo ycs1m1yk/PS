@@ -19,25 +19,23 @@ using namespace std;
 */
 int main()
 {
-    int N, B, leadingTerm = -1;
+    string N;
+    int B, leadingTerm, ret = 0;
     cin >> N >> B;
-    int tmp = N;
-    while (tmp >= 1)
+    leadingTerm = N.size() - 1;
+    for (auto coef = N.begin(); coef != N.end(); coef++)
     {
-        tmp /= B;
-        leadingTerm++;
-    }
-    for (int i = leadingTerm; i >= 0; i--)
-    {
-        int coef = N / pow(B, i);
-        N -= coef * pow(B, i);
-        if (coef >= 10)
+        int iCoef;
+        if (*coef >= 'A')
         {
-            cout << (char)('A' - 10 + coef);
+            iCoef = *coef - 'A' + 10;
         }
         else
         {
-            cout << coef;
+            iCoef = *coef - '0';
         }
+        ret += iCoef * pow(B, leadingTerm);
+        leadingTerm--;
     }
+    cout << ret;
 }
