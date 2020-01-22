@@ -13,6 +13,11 @@
 #include <vector>
 #include <tuple>
 
+/*
+    진법변환 문제를 이딴식으로 풀다니
+    훗날 재풀이
+*/
+
 using namespace std;
 /*
 
