@@ -28,7 +28,7 @@ void Eratos(int num)
         eratosVec.push_back(true);
     }
     eratosVec[1] = false;
-    for (int i = 2; i <= num; i++)
+    for (int i = 2; i <= (int)sqrt(num); i++)
     {
         if (eratosVec[i])
         {
@@ -42,7 +42,7 @@ void Eratos(int num)
 
 int main()
 {
-    int M, N = 0;
+    int M, N;
     cin >> M >> N;
     if (M == N == 1)
     {
