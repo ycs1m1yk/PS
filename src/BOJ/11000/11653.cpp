@@ -15,6 +15,16 @@
 
 using namespace std;
 
+/*
+    소인수분해 c++, Eratos
+
+    공간복잡도?
+        :
+    시간복잡도?
+        worst:
+        average:
+*/
+
 vector<int> primeNums;
 void Eratos(int num)
 {
