@@ -23,6 +23,8 @@ using namespace std;
     시간복잡도?
         worst:
         average:
+    백준채점결과
+        : 100312KB, 208ms
 */
 
 vector<int> primeNums;
