@@ -7,19 +7,24 @@
 using namespace std;
 int main()
 {
-    int N, M;
+    int N, M, connCompCnt;
     vector<set<int>> connectedSetVec;
     cin >> N >> M;
     for (int i = 1; i <= N; i++)
     {
         connectedSetVec.push_back({i});
     }
+    connCompCnt = connectedSetVec.size();
     for (int i = 0; i < M; i++)
     {
         int u, v, uPos, vPos;
         set<int> uSet, vSet;
         bool uFound = false, vFound = false;
         cin >> u >> v;
+        if (connCompCnt == 1)
+        { // 이미 연결 요소가 1개이면 간선 입력만받고 컨티뉴
+            continue;
+        }
         for (int i = 0; i < connectedSetVec.size(); i++)
         {
             if (uFound && vFound)
@@ -47,7 +52,8 @@ int main()
                 connectedSetVec[uPos].insert(e);
             }
             connectedSetVec[vPos] = {};
-            cout << "connectedSetVec: ";
+            connCompCnt--;
+            // cout << "connectedSetVec: ";
             // for (auto set : connectedSetVec)
             // {
             //     cout << "{";
@@ -60,14 +66,5 @@ int main()
             // cout << "\n";
         }
     }
-    int cnt = 0;
-    set<int> nullSet = {};
-    for (auto set : connectedSetVec)
-    {
-        if (set != nullSet)
-        {
-            cnt++;
-        }
-    }
-    cout << cnt;
+    cout << connCompCnt;
 }
