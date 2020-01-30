@@ -11,92 +11,74 @@
 #include <stack>
 #include <utility>
 #include <vector>
-#include <set>
+#include <tuple>
 
 using namespace std;
-
-const int MAX_SIZE = 20001;
-queue<int> nodeQ;
-
 int main()
 {
+    ios_base ::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
     int K;
     cin >> K;
-    for (int k = 0; k < K; k++) // K번 테스트
+    while (K--)
     {
         int V, E;
+        vector<int> adj[20001];
         cin >> V >> E;
-        if (V == 1)
-        {
-            cout << "YES"
-                 << "\n";
-            continue;
+        for (int i = 0; i < E; i++)
+        { // 인접리스트 초기화
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
-        int d[MAX_SIZE], visited[MAX_SIZE] = {0};
-        int adj[MAX_SIZE][MAX_SIZE] = {0};
-        vector<set<int>> distanceSetVec; // 시작노드로부터의 거리 set
-        for (int i = 0; i < E; i++)      // 인접행렬 초기화
-        {
-            int v, u;
-            cin >> v >> u;
-            adj[v][u] = 1;
-            adj[u][v] = 1;
-        }
+
         bool isBipartite = true;
-        // #################### BFS시작
-        for (int s = 1; s <= V; s++) // 시작노드 1~V번
-        {
-            if (!isBipartite) // 이미 Bipartite가 아니면 더 순회안해봐도됨.
-            {
+        int mark[20001]; // -1:방문x, 0:검은색, 1:빨간색
+        memset(mark, -1, sizeof(mark));
+        for (int s = 1; s <= V; s++)
+        { // 1~V번 노드부터 순회(bfs)
+            if (!isBipartite)
+            { // 이미 NO이면 더 순회할 필요x
                 break;
             }
-            memset(d, -1, sizeof(d));
-            memset(visited, 0, sizeof(visited));
-
-            d[s] = 0; // s부터 순회
-            visited[s] = 1;
-            distanceSetVec.push_back({s});
+            if (mark[s] != -1)
+            {
+                continue;
+            }
+            bool flag = false;
+            queue<int> nodeQ;
+            mark[s] = 1;
             nodeQ.push(s);
             while (!nodeQ.empty())
             {
-                int curNode = nodeQ.front();
-                nodeQ.pop();
-                for (int i = 1; i <= V; i++)
+                int qSize = nodeQ.size();
+                for (int i = 0; i < qSize; i++)
                 {
-                    if (adj[curNode][i])
+                    int curr = nodeQ.front();
+                    nodeQ.pop();
+                    for (int next : adj[curr])
                     {
-                        if (!visited[i])
+                        if (mark[next] == -1)
                         {
-                            visited[i] = 1;
-                            d[i] = d[curNode] + 1;
-                            nodeQ.push(i);
-                            if (d[i] + 1 > distanceSetVec.size())
-                            {
-                                distanceSetVec.push_back({i});
-                            }
-                            else
-                            {
-                                distanceSetVec[d[i]].insert(i);
-                            }
+                            mark[next] = flag;
+                            nodeQ.push(next);
                         }
                     }
                 }
+                flag = !flag;
             }
-            // #################### BFS 종료
-            for (auto set : distanceSetVec)
+            for (int u = 1; u <= V; u++)
             {
                 if (!isBipartite)
                 {
                     break;
                 }
-                int firstElement = *(set.begin());
-                for (auto e : set)
+                for (int v : adj[u])
                 {
-                    if (e == firstElement)
-                    {
-                        continue;
-                    }
-                    if (adj[firstElement][e])
+                    if (mark[u] == mark[v])
                     {
                         isBipartite = false;
                         break;
@@ -104,16 +86,6 @@ int main()
                 }
             }
         }
-
-        if (isBipartite)
-        {
-            cout << "YES"
-                 << "\n";
-        }
-        else
-        {
-            cout << "NO"
-                 << "\n";
-        }
+        cout << (isBipartite ? "YES" : "NO") << "\n";
     }
 }
