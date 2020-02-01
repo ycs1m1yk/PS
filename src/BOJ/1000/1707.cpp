@@ -36,7 +36,7 @@ int main()
         }
 
         bool isBipartite = true;
-        int mark[20001]; // -1:방문x, 0:검은색, 1:빨간색
+        int mark[20001]; // -1:방문x, 0:그룹1, 1:그룹2
         memset(mark, -1, sizeof(mark));
         for (int s = 1; s <= V; s++)
         { // 1~V번 노드부터 순회(bfs)
@@ -50,7 +50,7 @@ int main()
             }
             bool flag = false;
             queue<int> nodeQ;
-            mark[s] = 1;
+            mark[s] = true;
             nodeQ.push(s);
             while (!nodeQ.empty())
             {
@@ -70,19 +70,19 @@ int main()
                 }
                 flag = !flag;
             }
-            for (int u = 1; u <= V; u++)
+        }
+        for (int u = 1; u <= V; u++)
+        {
+            if (!isBipartite)
             {
-                if (!isBipartite)
+                break;
+            }
+            for (int v : adj[u])
+            {
+                if (mark[u] == mark[v])
                 {
+                    isBipartite = false;
                     break;
-                }
-                for (int v : adj[u])
-                {
-                    if (mark[u] == mark[v])
-                    {
-                        isBipartite = false;
-                        break;
-                    }
                 }
             }
         }
