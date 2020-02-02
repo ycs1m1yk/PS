@@ -14,6 +14,11 @@
 #include <tuple>
 
 using namespace std;
+/*
+    정수 N개로 이루어진 순열이라
+    모든 노드는 각자 다른 하나의 노드와 연결된다.
+    사이클이 아닌경우를 따질필요가 없었다.
+*/
 int main()
 {
     int T;
