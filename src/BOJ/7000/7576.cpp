@@ -71,6 +71,8 @@ int main()
     int result = 0;
     for (int i = 1; i <= N; i++)
     {
+        if (result == -1)
+            break;
         for (int j = 1; j <= M; j++)
         {
             if (tomatoBox[i][j] == 0 && d[i][j] == -1)
