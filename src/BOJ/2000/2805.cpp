@@ -19,7 +19,7 @@ int main()
     ios_base ::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int N, M, lo = 1, hi = -1;
+    int N, M, lo = 0, hi = -1; // 높이 최솟값==0
     int tree[1000000];
     cin >> N >> M;
     for (int i = 0; i < N; i++)
@@ -28,10 +28,16 @@ int main()
         hi = max(hi, tree[i] + 1);
     }
 
+    if (hi <= 1)
+    { // hi가 1인경우 예외처리
+        cout << 0;
+        return 0;
+    }
+
     while (lo + 1 < hi)
     {
-        int mid = (lo + hi) / 2, total = 0;
-        // cout<<mid<<"\n";
+        int mid = (lo + hi) / 2;
+        long long total = 0;
         for (int i = 0; i < N; i++)
         {
             if (total >= M)
@@ -39,13 +45,10 @@ int main()
             if (tree[i] > mid)
                 total += tree[i] - mid;
         }
-        // cout<<"total: "<<total<<"\n";
         if (total >= M)
             lo = mid;
         else
             hi = mid;
-
-        // cout << lo << " " << hi << "\n\n";
     }
     cout << lo << "\n";
 }
