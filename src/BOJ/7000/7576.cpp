@@ -58,13 +58,10 @@ int main()
         {
             int nRow = currRow + dx[i];
             int nCol = currCol + dy[i];
-            if (tomatoBox[nRow][nCol] != -1)
+            if (tomatoBox[nRow][nCol] == 0 && d[nRow][nCol] == -1)
             {
-                if (tomatoBox[nRow][nCol] == 0 && d[nRow][nCol] == -1)
-                {
-                    d[nRow][nCol] = d[currRow][currCol] + 1;
-                    Q.push({nRow, nCol});
-                }
+                d[nRow][nCol] = d[currRow][currCol] + 1;
+                Q.push({nRow, nCol});
             }
         }
     }
