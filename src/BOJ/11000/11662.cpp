@@ -26,21 +26,21 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
+    double Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
     cin >> Ax >> Ay >> Bx >> By >> Cx >> Cy >> Dx >> Dy;
 
-    double deltaStep = 1000000;
-    double deltaMinhoX = abs(Ax - Bx) / deltaStep;
-    double deltaMinhoY = abs(Ay - By) / deltaStep;
-    double deltaKanghoX = abs(Cx - Dx) / deltaStep;
-    double deltaKanghoY = abs(Cy - Dy) / deltaStep;
+    int deltaStep = 1000000;
+    double deltaMinhoX = (Bx - Ax) / deltaStep;
+    double deltaMinhoY = (By - Ay) / deltaStep;
+    double deltaKanghoX = (Dx - Cx) / deltaStep;
+    double deltaKanghoY = (Dy - Cy) / deltaStep;
     double min1 = getP2PDist(Ax, Ay, Cx, Cy);
 
     double result = min1;
     for (int i = 1; i <= deltaStep; i++)
     {
-        double tmp = getP2PDist(Ax + deltaMinhoX, Ay + deltaMinhoY, Cx + deltaKanghoX, Cy + deltaKanghoY);
-        result = min(min1, tmp);
+        double tmp = getP2PDist(Ax + deltaMinhoX * i, Ay + deltaMinhoY * i, Cx + deltaKanghoX * i, Cy + deltaKanghoY * i);
+        result = min(result, tmp);
     }
 
     cout.precision(10);
