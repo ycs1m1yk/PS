@@ -1,29 +1,25 @@
 #include <iostream>
 
 using namespace std;
-int N = 0;
-
-void mmss(int n)
-{
-    int mm = n / 60;
-    int ss = n % 60;
-    cout << n << " = " << mm << ':' << ss << '\n';
-}
+int N, M, K;
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(0);
 
-    for (int i = 0; i < 1000; i++)
+    cin >> N >> M >> K;
+    int maxTeam = 0;
+    while (N >= 2 && M >= 1)
     {
-        cin >> N;
+        N -= 2;
+        M -= 1;
 
-        if (N == -1)
+        if (N + M < K)
             break;
-        else
-            mmss(N);
+
+        maxTeam++;
     }
 
-    return 0;
+    cout << maxTeam;
 }
