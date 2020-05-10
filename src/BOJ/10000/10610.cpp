@@ -7,17 +7,17 @@ int main()
 {
     string N;
     bool isMutiplesOfThree = false; // 숫자들의 합이 3의 배수이면 true
-    int sum;
+    int sum = 0;
     int nArr[10]; // 0~9 숫자개수
 
-    memset(nArr, 0, sizeof(nArr));
+    memset(nArr, 0, sizeof(nArr)); // nArr 초기화
 
     cin >> N;
-    for (auto e : N) // nArr 초기화
+
+    for (auto e : N) // nArr 입력
     {
-        int i = e - '0';
-        sum += i;
-        nArr[i]++;
+        sum += e - '0';
+        nArr[e - '0']++;
     }
 
     if (sum % 3 == 0)
@@ -27,8 +27,11 @@ int main()
     {
         for (int i = 9; i >= 0; i--)
             for (int j = nArr[i]; j > 0; j--)
-                cout << i;
+            {
+                char ch = i + '0';
+                cout << ch;
+            }
     }
     else
-        cout << -1;
+        cout << "-1";
 }
