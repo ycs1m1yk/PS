@@ -4,7 +4,7 @@
 #include <vector>
 
 using namespace std;
-int N, result = 0;
+int N;
 vector<pair<int, int>> v;
 
 int main()
@@ -14,28 +14,23 @@ int main()
 
     cin >> N;
 
-    int minEnd = INT_MAX;
     for (int i = 0; i < N; i++)
     {
         int start, end;
         cin >> start >> end;
-        minEnd = min(minEnd, end);
-        v.push_back(make_pair(start, end));
+        v.push_back(make_pair(end, start));
     }
 
-    sort(v.begin(), v.end(), [](pair<int, int> a, pair<int, int> b) {
-        return a.second < b.second;
-    });
+    sort(v.begin(), v.end());
 
+    int result = 0, minEnd = 0;
     int sizeOfV = v.size();
     for (int i = 0; i < sizeOfV; i++)
     {
-        if (v[i].first < minEnd)
-            continue;
-        else
+        if (v[i].second >= minEnd)
         {
             result++;
-            minEnd = v[i].second;
+            minEnd = v[i].first;
         }
     }
 
