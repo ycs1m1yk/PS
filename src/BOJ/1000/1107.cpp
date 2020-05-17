@@ -49,7 +49,7 @@ int main()
         cout << ((target > 100) ? target - 100 : 100 - target);
     else
     {
-        int lo, hi;
+        int lo = 999999, hi = 999999;
         for (int i = target; i >= 0; i--)
         {
             if (isValid(i))
