@@ -2,6 +2,11 @@
 #include <cmath>
 
 using namespace std;
+
+/*
+    완전탐색이라더니 걍 bfs아닌가?
+    나중에 bfs로 다시풀기..
+*/
 const int MAX = 100000;
 int N, K;
 
@@ -24,7 +29,7 @@ int solve(int here, int target)
         }
         else
         {
-            ret = min(solve(here + 1, target) + 1, solve(here - 1, target) + 1);
+            ret = min(abs(target - here), solve(here - 1, target) + 1);
         }
     }
     else if (here > target) // only here-1 case
@@ -41,8 +46,7 @@ int solve(int here, int target)
         }
         else
         {
-            ret = min(solve(here + 1, target) + 1, solve(2 * here, target) + 1);
-            ret = min(ret, solve(here - 1, target) + 1);
+            ret = min(solve(here - 1, target) + 1, solve(2 * here, target) + 1);
         }
     }
 
