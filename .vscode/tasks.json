@@ -5,6 +5,7 @@
   "echoCommand": true,
   "presentation": { "reveal": "always" },
   "tasks": [
+    // C++ 컴파일
     {
       "label": "save and compile for C++",
       "command": "g++",
@@ -15,7 +16,11 @@
         "${fileDirname}/${fileBasenameNoExtension}"
       ],
       "group": "build",
+
+      // 컴파일시 에러를 편집기에 반영
+      // 참고: https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
       "problemMatcher": {
+        // Example to match: helloWorld.c:5:3: warning: implicit declaration of function 'printft'
         "fileLocation": ["relative", "${workspaceRoot}"],
         "pattern": {
           "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$",
@@ -27,6 +32,7 @@
         }
       }
     },
+    // C 컴파일
     {
       "label": "save and compile for C",
       "command": "gcc",
@@ -37,6 +43,9 @@
         "${fileDirname}/${fileBasenameNoExtension}"
       ],
       "group": "build",
+
+      // 컴파일시 에러를 편집기에 반영
+      // 참고: https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
       "problemMatcher": {
         "fileLocation": ["relative", "${workspaceRoot}"],
         "pattern": {
@@ -58,7 +67,7 @@
     {
       "type": "shell",
       "label": "g++.exe build active file",
-      "command": "C:\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\g++.exe",
+      "command": "C:/mingw64/bin/g++.exe",
       "args": [
         "-g",
         "${file}",
@@ -66,7 +75,7 @@
         "${fileDirname}\\${fileBasenameNoExtension}.exe"
       ],
       "options": {
-        "cwd": "C:\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin"
+        "cwd": "C:/mingw64/bin"
       },
       "problemMatcher": ["$gcc"],
       "group": "build"
