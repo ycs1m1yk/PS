@@ -1,36 +1,60 @@
 #include <cstdio>
+#include <cstring>
 #include <algorithm>
-#include <vector>
 
 using namespace std;
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+const int LEN = 1000;
 
-vector<int> seq(1, 0);
+int N, S[LEN], C[LEN], cache[LEN + 1];
 
-int main()
+int lis(int start)
 {
-    int N;
-    scanf("%d", &N);
+    int &ret = cache[start + 1];
+    if (ret != -1)
+        return ret;
 
-    int input;
-    for (int i = 0; i < N; i++)
+    ret = 1;
+    for (int nxt = start + 1; nxt < N; ++nxt)
     {
-        scanf("%d", &input);
-        vector<int>::iterator l_b = lower_bound(seq.begin(), seq.end(), input);
-        if (input > seq.back())
+        if (start == -1 || S[start] < S[nxt])
         {
-            seq.push_back(input);
-        }
-        else if (l_b == --seq.end())
-        {
-            *l_b = input;
+            ret=max(ret, lis(nxt)+1);
         }
     }
 
-    printf("%d\n", seq.size() - 1);
+    return ret;
+}
 
-    vector<int>::iterator it;
-    for (it = ++seq.begin(); it != seq.end(); it++)
+int main()
+{
+    scanf("%d", &N);
+    memset(cache, -1, sizeof(cache));
+    memset(S, -1, sizeof(S));
+
+    for (int i = 0; i < N; i++)
     {
-        printf("%d ", *it);
+        scanf("%d", &S[i]);
+    }
+
+    int ans = lis(-1) - 1;
+    printf("%d\n", ans);
+
+    int begin=0;
+    for (int i = 1; i <= N; i++)
+    {
+        if(cache[i]==ans){
+            begin=i;
+            printf("%d ", S[i-1]);
+            ans--;
+            continue;
+        }
+        
+        if(begin && cache[i]==ans){
+            printf("%d ", S[i-1]);
+            ans--;
+
+            if(ans==1) break;
+        }
     }
 }
