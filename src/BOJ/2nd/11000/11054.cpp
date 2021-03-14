@@ -10,14 +10,15 @@ int N, S[MAX], cache1[MAX], cache2[MAX];
 
 int lis(int start)
 {
-    if(start==N) return 0;
     int &ret = cache1[start];
-    if(ret!=-1) return ret;
+    if (ret != -1)
+        return ret;
 
-    ret=0;
-    for(int prev=start-1; prev>=0; prev--){
-        if(S[prev]<S[start])
-            ret = max(ret, lis(prev));        
+    ret = 0;
+    for (int prev = start - 1; prev >= 0; prev--)
+    {
+        if (S[prev] < S[start])
+            ret = max(ret, lis(prev));
     }
 
     return ++ret;
@@ -25,14 +26,15 @@ int lis(int start)
 
 int lds(int start)
 {
-    if(start==N) return 0;
     int &ret = cache2[start];
-    if(ret!=-1) return ret;
+    if (ret != -1)
+        return ret;
 
-    ret=0;
-    for(int next=start+1; next<N; next++){
-        if(S[start]>S[next])
-            ret = max(ret, lds(next));        
+    ret = 0;
+    for (int next = start + 1; next < N; next++)
+    {
+        if (S[start] > S[next])
+            ret = max(ret, lds(next));
     }
 
     return ++ret;
