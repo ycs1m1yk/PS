@@ -6,6 +6,10 @@
 using namespace std;
 const int MAX = 100000;
 
+/*
+    다음엔 tuple을 사용하거라..
+*/
+
 int N;
 vector<pair<pair<int, int>, string>> users;
 
