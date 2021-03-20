@@ -1,44 +1,36 @@
 #include <iostream>
 #include <algorithm>
+#include <map>
 #define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
 using namespace std;
-const int MAX = 100000;
+typedef map<long long, int> M;
 
 int N;
-long long card[MAX];
+M cards;
 
 int main()
 {
     fastio;
     cin >> N;
+    long long cardNum;
     for (int i = 0; i < N; i++)
     {
-        cin >> card[i];
-    }
-    sort(card, card + N);
-    int maxCnt = 1, cnt = 0;
-    long long countingNum = card[0], currentNum;
-    long long ans = card[0];
-    for (int i = 0; i < N; i++)
-    {
-        currentNum = card[i];
-        if (currentNum == countingNum)
-        {
-            cnt++;
-            if (cnt == maxCnt)
-            {
-                ans = min(ans, currentNum);
-            }
-            if (cnt > maxCnt)
-            {
-                ans = currentNum;
-                maxCnt = cnt;
-            }
-        }
+        cin >> cardNum;
+        M::iterator iter = cards.find(cardNum);
+        if (iter == cards.end()) // cardNum을 못 찾았을때
+            cards[cardNum] = 1;
         else
+            iter->second++;
+    }
+
+    int maxCnt = 0;
+    int ans;
+    for (auto pair : cards)
+    {
+        if (pair.second > maxCnt || pair.second == maxCnt && pair.first < ans)
         {
-            countingNum = currentNum;
-            cnt = 1;
+            ans = pair.first;
+            maxCnt = pair.second;
         }
     }
     cout << ans;
