@@ -45,11 +45,13 @@ bool Queue::isEmpty()
 
 int Queue::getFront()
 {
+    if(this->isEmpty()) return -1;
     return this->queue[this->front];
 }
 
 int Queue::getBack()
 {
+    if(this->isEmpty()) return -1;
     return this->queue[this->back-1];
 }
 
