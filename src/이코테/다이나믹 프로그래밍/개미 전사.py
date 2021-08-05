@@ -1,7 +1,10 @@
 import time
 import sys
 
-
+'''
+    cache[x-1]에 반드시 warehouses[x-1]을 포함하는 case에서 최댓값을 저장했는데 그럴필요는 없었다.
+    처음 생각대로 max(dp(x-1), dp(x-2)+warehouses[x-1])해도 똑같고 더 깔끔하다.
+'''
 def dp(x):
     if x == 1:
         cache[x-1] = warehouses[0]
