@@ -1,39 +1,26 @@
-#include <iostream>
+#include <cstdio>
 #include <stack>
-#define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
 using namespace std;
 
 int main()
 {
-    fastio;
+    int c, prev = '(';
     stack<int> s;
-    string input;
 
-    cin >> input;
-    for (auto ch : input)
-        s.push(ch);
-
-    int stickCnt = 0, ans = 0;
-    char prevParentheses;
-    while (!s.empty())
+    int ans = 0;
+    while ((c = getchar()) != '\n')
     {
-        if (s.top() == ')')
+        if (c == ')')
         {
-            stickCnt++;
+            s.pop();
+            if (prev == '(')
+                ans += s.size();
+            else
+                ans++;
         }
         else
-        {
-            stickCnt--;
-            // lazor case
-            if (prevParentheses == ')')
-                ans += stickCnt;
-            else{
-                ans++;
-            }
-        }
-        prevParentheses = s.top();
-        s.pop();
+            s.push(c);
+        prev = c;
     }
-
-    cout<<ans;
+    printf("%d", ans);
 }
