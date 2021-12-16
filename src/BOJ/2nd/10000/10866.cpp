@@ -1,90 +1,139 @@
 #include <iostream>
 #include <cstring>
-#define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define fastio ios::sync_with_stdio(0), cin.tie(0)
 using namespace std;
-const int MAX_DEQUE_SIZE = 10000;
 
+struct Node
+{
+    int data;
+    Node *prev, *next;
+
+    Node(int d, Node *p = nullptr, Node *n = nullptr) : data(d), prev(p), next(n) {}
+};
 class Deque
 {
 public:
-    int Deque[MAX_DEQUE_SIZE];
-    int front = 0;
-    int back = 0;
+    Deque();
+    ~Deque();
 
-    void push_front(int X);
-    void push_back(int X);
-    int pop_front();
-    int pop_back();
-    int size();
-    bool isEmpty();
+    bool empty();
+    void pushFront(int);
+    void pushBack(int);
+    int getSize();
+    int popFront();
+    int popBack();
     int getFront();
     int getBack();
+
+private:
+    Node *front;
+    Node *back;
+    int size;
 };
 
-void Deque::push_front(int X)
+Deque::Deque()
 {
-    /*
-
-        |  | X | X |
-         ก่
-        front
-    
-    */
-    this->Deque[this->front] = X;
-    this->front = (this->front - 1 + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE;
-}
-void Deque::push_back(int X)
-{
-    /*
-
-        | X | X |   |
-              ก่
-            back
-    
-    */
-    this->back = (this->back + 1) % MAX_DEQUE_SIZE;
-    this->Deque[this->back] = X;
+    front = nullptr;
+    back = nullptr;
+    size = 0;
 }
 
-int Deque::pop_front()
+Deque::~Deque()
 {
-    if (this->isEmpty())
+    while (!empty())
+    {
+        popBack();
+    }
+}
+
+bool Deque::empty()
+{
+    return size == 0;
+}
+
+void Deque::pushFront(int X)
+{
+    if (empty())
+    {
+        front = back = new Node(X);
+        size++;
+        return;
+    }
+    Node *newNode = new Node(X, nullptr, front);
+    front->prev = newNode;
+    front = newNode;
+    size++;
+}
+
+void Deque::pushBack(int X)
+{
+    if (empty())
+    {
+        front = back = new Node(X);
+        size++;
+        return;
+    }
+    Node *newNode = new Node(X, back, nullptr);
+    back->next = newNode;
+    back = newNode;
+    size++;
+}
+
+int Deque::getSize()
+{
+    return size;
+}
+
+int Deque::popFront()
+{
+    if (empty())
         return -1;
+    int ret = getFront();
+    Node *node = front;
+    if(size>1){
+        front = front->next;
+        delete node;
+        front->prev=nullptr;
+    }
+    else {
+        front=back=new Node(ret);
+        delete node;
+    }
+    size--;
 
-    this->front = (this->front + 1) % MAX_DEQUE_SIZE;
-    return this->Deque[this->front];
+    return ret;
 }
-int Deque::pop_back()
+
+int Deque::popBack()
 {
-    if (this->isEmpty())
+    if (empty())
         return -1;
+    int ret = getBack();
+    Node *node = back;
+    if(size>1){
+        back=back->prev;
+        delete node;
+        back->next=nullptr;
+    }
+    else {
+        front=back=new Node(ret);
+        delete node;
+    }
+    size--;
 
-    this->back = (this->back - 1 + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE;
-    return this->Deque[(this->back + 1) % MAX_DEQUE_SIZE];
-}
-
-int Deque::size()
-{
-    return (this->back - this->front + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE;
-}
-
-bool Deque::isEmpty()
-{
-    return this->front == this->back;
+    return ret;
 }
 
 int Deque::getFront()
 {
-    if (this->isEmpty())
-        return -1;
-    return this->Deque[(this->front + 1) % MAX_DEQUE_SIZE];
+    if(empty()) return -1;
+    return front->data;
 }
 
 int Deque::getBack()
 {
-    if (this->isEmpty())
-        return -1;
-    return this->Deque[this->back];
+    if(empty()) return -1;
+    return back->data;
 }
 
 int main()
@@ -92,39 +141,39 @@ int main()
     fastio;
     int N;
     Deque dq;
-    char command[10];
 
     cin >> N;
     while (N--)
     {
+        char command[11];
         cin >> command;
         if (strcmp(command, "push_front") == 0)
         {
             int item;
             cin >> item;
-            dq.push_front(item);
+            dq.pushFront(item);
         }
         else if (strcmp(command, "push_back") == 0)
         {
             int item;
             cin >> item;
-            dq.push_back(item);
+            dq.pushBack(item);
         }
         else if (strcmp(command, "pop_front") == 0)
         {
-            cout << dq.pop_front() << "\n";
+            cout << dq.popFront() << "\n";
         }
         else if (strcmp(command, "pop_back") == 0)
         {
-            cout << dq.pop_back() << "\n";
+            cout << dq.popBack() << "\n";
         }
         else if (strcmp(command, "size") == 0)
         {
-            cout << dq.size() << "\n";
+            cout << dq.getSize() << "\n";
         }
         else if (strcmp(command, "empty") == 0)
         {
-            if (dq.isEmpty())
+            if (dq.empty())
                 cout << "1\n";
             else
                 cout << "0\n";
