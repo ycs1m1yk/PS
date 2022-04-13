@@ -47,7 +47,7 @@ for (let round = 0; round < rounds; round++) {
   for (let i = 0; i < distanceFromBegin; i++) {
     r += dr[direction];
     c += dc[direction];
-    while (
+    if (
       checkBoundOut(
         r,
         c,
@@ -66,10 +66,10 @@ for (let round = 0; round < rounds; round++) {
   let nDirection = 0;
   for (let i = 0; i < len; i++) {
     resultMap[r][c] = initialMap[nr][nc];
-    // initialMap
+    // resultMap
     r += dr[direction];
     c += dc[direction];
-    while (
+    if (
       checkBoundOut(
         r,
         c,
@@ -82,10 +82,10 @@ for (let round = 0; round < rounds; round++) {
       [r, c, direction] = updatePosAndDir(r, c, direction);
     }
 
-    // resultMap
+    // initialMap
     nr += dr[nDirection];
     nc += dc[nDirection];
-    while (
+    if (
       checkBoundOut(
         nr,
         nc,
