@@ -37,7 +37,7 @@ for (let round = 0; round < rounds; round++) {
   const colLowerBound = round;
   const rowUpperBound = N - 1 - round;
   const colUpperBound = M - 1 - round;
-  const len = 2 * (N - round + (M - round)) - 4;
+  const len = 2 * (N - 2 * round + (M - 2 * round)) - 4;
 
   const distanceFromBegin = R % len;
   let r = round;
